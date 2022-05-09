@@ -1,9 +1,14 @@
 (require 'package)
 (require 'smartparens-config)
+
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-application-framework/")
+(require 'eaf)
+(require 'eaf-browser)
+(require 'eaf-pdf-viewer)
 (load-theme 'dracula t)
 (set-face-attribute 'font-lock-type-face nil :weight 'normal)
 (package-initialize)
@@ -16,7 +21,10 @@
  '(initial-frame-alist '((fullscreen . maximized)))
  '(package-selected-packages
    '(rainbow-delimiters smartparens paredit cider magit projectile flx-ido doom-modeline clojure-mode all-the-icons-dired)))
+(setq inhibit-startup-message t)
 (menu-bar-mode -1)
+(scroll-bar-mode -1)
+(set-fringe-mode 10)
 (tool-bar-mode -1)
 (show-paren-mode 1)
 (require 'doom-modeline)

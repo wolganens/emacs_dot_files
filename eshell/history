@@ -12,3 +12,25 @@ exit
 locate
 locate init.el
 ls
+ls
+git checkout -- core.clj 
+ls
+git status
+git clone --depth=1 -b master https://github.com/emacs-eaf/emacs-application-framework.git ~/.emacs.d/site-lisp/emacs-application-framework/
+cd emacs-application-framework
+cd ~
+cd emacs-application-framework
+cd payment-webhooks/src/payment_webhooks/
+cd ..
+cd ..
+cd ..
+cd .emacs.d/site-lisp/emacs-application-framework/
+chmod +x ./install-eaf.py
+./install-eaf.py
+sudo apt-get install pip
+./install-eaf.py
+./install-eaf.py
+cd .emacs.d/site-lisp/emacs-application-framework/
+chmod +x ./install-eaf.py
+./install-eaf.py
+git status
