@@ -1,0 +1,46 @@
+(require 'package)
+(require 'smartparens-config)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-theme 'dracula t)
+(set-face-attribute 'font-lock-type-face nil :weight 'normal)
+(package-initialize)
+(add-hook 'clojure-mode-hook #'smartparens-mode)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(initial-frame-alist '((fullscreen . maximized)))
+ '(package-selected-packages
+   '(rainbow-delimiters smartparens paredit cider magit projectile flx-ido doom-modeline clojure-mode all-the-icons-dired)))
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(show-paren-mode 1)
+(require 'doom-modeline)
+(doom-modeline-mode 1)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+
+(global-set-key (kbd "<C-right>") (lambda () (interactive) (sp-forward-slurp-sexp)))
+(global-set-key (kbd "<C-left>") (lambda () (interactive) (sp-backward-slurp-sexp)))
+
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+(require 'paren)
+    (set-face-background 'show-paren-match (face-background 'default))
+    (set-face-foreground 'show-paren-match "#def")
+    (set-face-attribute 'show-paren-match nil :weight 'extra-bold)
