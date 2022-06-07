@@ -1,0 +1,27 @@
+(ns payment-webhooks.adapters
+  (:require [clojure.walk :refer [postwalk]]
+            [clojure.test :refer [is]]
+            [clojure.string :refer [trim-newline trim]])
+  (:import java.security.MessageDigest
+           java.util.Base64))
+
+(defn base64 [to-encode]
+  (.encodeToString (Base64/getEncoder) (.getBytes to-encode)))
+
+(defn sha256 [string]
+  (let [digest (.digest (MessageDigest/getInstance "SHA-256") (.getBytes string "UTF-8"))]
+    (apply str (map (partial format "%02x") digest))))
+
+(defn map->sorted-map [map]
+  (postwalk #(if (map? %) (into (sorted-map) %) %) map))
+
+(defn message->natural-id [message]
+  (-> message
+      map->sorted-map
+      str
+      trim-newline
+      trim
+      sha256
+      base64))
+
+

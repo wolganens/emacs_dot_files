@@ -1,0 +1,28 @@
+(ns payment-webhooks.components.message-sender
+  (:require [payment-webhooks.protocols.message-sender :as message-protocol]
+            [payment-webhooks.feature-flag :as feature-flag]
+            [payment-webhooks.protocols.producer :as producer-port]
+            [payment-webhooks.protocols.queue :as queue-port]))
+
+
+(defrecord MessageSender [producer queue topic-fn queue-fn topic-key-fn]
+
+  message-protocol/MessageSender
+  (send! [this message payload]
+    (if (feature-flag/new-messaging-service-enabled?)
+      (producer-port/send! producer                      
+                           (topic-fn producer)
+                           (topic-key-fn payload)
+                           message)
+      (queue-port/publish! queue
+                           (queue-fn queue)
+                           payload))))
+
+(defn new-subscription-message-sender []
+  (map->MessageSender {:topic-fn :subscriptions-topic
+                       :queue-fn :subscriptions-queue
+                       :topic-key-fn :broker-subscription-id}))
+
+(defn new-payment-message-sender []
+  (map->MessageSender {:topic-fn :payments-topic
+                       :queue-fn :payments-queue}))

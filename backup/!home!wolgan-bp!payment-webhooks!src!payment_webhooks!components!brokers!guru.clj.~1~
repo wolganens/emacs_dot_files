@@ -1,0 +1,196 @@
+(ns payment-webhooks.components.brokers.guru.component
+  (:require [payment-webhooks.protocols.brokers :as broker-protocol]
+            [payment-webhooks.utils :refer [get-config]]
+            [payment-webhooks.components.brokers.guru.schemas.schemas :as schemas]
+            [malli.core :as malli]
+            [clojure.string]
+            [clojure.instant :as instant]))
+
+(defn payload->message [payload table]
+  (reduce-kv #(assoc-in %1 %2 (if (vector? %3) (get-in payload %3) %3)) {} table))
+
+(defn credit-card? [payment] (= "credit_card" (:payment-method payment)))
+
+(defn billet? [payment] (= "billet" (:payment-method payment)))
+
+(defn pix? [payment] (= "pix" (:payment-method payment)))
+
+(def subscription-payload->subscription
+  {[:provider-subscription-id] [:id]
+   [:broker-name] :guru
+   [:broker-subscription-id] [:internal_id]
+   [:provider-name] [:provider]
+   [:status] [:last_status]
+   [:started-at] [:dates :started_at]
+   [:canceled-at] [:dates :canceled_at]
+   [:cancel-reason] [:cancel_reason]})
+
+(def subscription-payload->member
+  {[:phone-number] [:subscriber :phone_number]
+   [:phone-code] [:subscriber :phone_local_code]
+   [:name] [:subscriber :name]
+   [:email] [:subscriber :email]})
+
+(def subscription-payload->member-address
+  {[:address] [:subscriber :address]
+   [:number] [:subscriber :address_number]
+   [:comp] [:subscriber :address_comp]
+   [:district] [:subscriber :address_district]
+   [:city] [:subscriber :address_city]
+   [:state] [:subscriber :address_state]
+   [:country] [:subscriber :address_country]})
+
+(def subscription-payload->plan
+  {[:broker-plan] [:product :id]
+   [:plan-name] [:name]})
+
+(def transaction-payload->payment
+  {[:broker-transaction-id] [:id]
+   [:broker-name] :guru
+   [:provider-transaction-id] [:payment :marketplace_id]
+   [:provider-name] [:payment :marketplace_name]
+   [:offer-name] [:product :offer :name]
+   [:value] [:payment :total]
+   [:status] [:status]
+   [:currency] [:payment :currency]
+   [:ordered-at] [:dates :ordered_at]
+   [:confirmed-at] [:dates :confirmed_at]
+   [:canceled-at] [:dates :canceled_at]
+   [:refunded-at] [:dates :canceled_at]
+   [:created-at] [:dates :created_at]
+   [:updated-at] [:dates :updated_at]
+   [:expires-at] [:dates :expires_at]
+   [:payment-method] [:payment :method]
+   [:issuer-response] [:payment :refuse_reason]
+   [:provider-subscription-id] [:subscription :id]})
+
+(def transaction-payload->pix
+  {[:qrcode-signature] [:payment :pix :qrcode :signature]
+   [:qrcode-url] [:payment :pix :qrcode :url]
+   [:expiration-date] [:payment :pix :expiration_date]})
+
+(def transaction-payload->credit-card
+  {[:brand] [:payment :credit_card :brand]
+   [:last-digits] [:payment :credit_card :last_digits]
+   [:installments] [:payment :installments :qty]
+   [:provider-card-id] [:payment :credit_card :id]})
+
+(def transaction-payload->billet
+  {[:line] [:payment :billet :line]
+   [:url] [:payment :billet :url]
+   [:expiration-date] [:payment :billet :expiration_date]})
+
+(def transaction-payload->member
+  {[:phone-number] [:contact :phone_number]
+   [:phone-code] [:contact :phone_local_code]
+   [:name] [:contact :name]
+   [:email] [:contact :email]})
+
+(def transaction-payload->invoice
+  {[:broker-invoice-id] [:invoice :id]
+   [:status] [:invoice :status]
+   [:currency] [:payment :currency]
+   [:total] [:invoice :value]
+   [:cycle] [:invoice :cycle]
+   [:plan-name] [:subscription :name]
+   [:discount-name] [:product :offer :name]
+   [:period :start] [:invoice :period_start]
+   [:period :end] [:invoice :period_end]})
+
+(def transaction-payload->subscription
+  {[:provider-subscription-id] [:subscription :id]})
+
+(defn set-message-payment-info [payment payload]
+  (-> payment
+      (cond->
+       (credit-card? payment) (assoc :payment-info (payload->message payload transaction-payload->credit-card))
+       (billet? payment) (assoc :payment-info (payload->message payload transaction-payload->billet))
+       (pix? payment) (assoc :payment-info (payload->message payload transaction-payload->pix)))))
+
+(defn date-string->seconds [date-string]
+  (when date-string
+    (-> date-string instant/read-instant-date
+        inst-ms
+        (/ 1000)
+        int)))
+
+(defn currency->cents [currency]
+  (cond-> currency
+    (number? currency) (* 100)
+    (string? currency) (-> BigDecimal. (* 100) int)))
+
+(defn parse-payment-currency [message]
+  (-> message
+      (update-in [:payment :value] currency->cents)
+      (cond->
+       (some? (-> message :payment :invoice))
+        (update-in [:payment :invoice :total] currency->cents))))
+
+(defn parse-payment-dates [message]
+  (let [payment-dates [:ordered-at :confirmed-at :canceled-at :refunded-at :created-at :updated-at :expires-at]]
+    (-> (reduce #(update-in %1 [:payment %2] date-string->seconds) message payment-dates)
+        (cond->
+         (some? (-> message :payment :payment-info :expiration-date))
+          (update-in [:payment :payment-info :expiration-date] date-string->seconds)
+
+          (some? (-> message :payment :invoice));TODO duplicated "some?". It didn'
+          (update-in [:payment :invoice :period :start] date-string->seconds)
+
+          (some? (-> message :payment :invoice))
+          (update-in [:payment :invoice :period :end] date-string->seconds)))))
+
+(defn parse-subscription-dates [message]
+  (let [fields [:started-at :canceled-at]]
+    (reduce #(update-in %1 [:subscription %2] date-string->seconds) message fields)))
+
+(defn has-invoice? [payload]
+  (not (vector? (:invoice payload))))
+
+(defrecord Guru []
+  broker-protocol/Broker
+
+  (authenticate [_ context]
+    (let [config (get-config)
+          allowed-api-keys (-> config :brokers :guru :api-keys)
+          auth-key (-> context :request :json-params :api_token)]
+      (contains? allowed-api-keys auth-key)))
+
+  (transaction-payload->payment [_ payload]
+    (let [payment (payload->message payload transaction-payload->payment)
+          invoice (payload->message payload transaction-payload->invoice)
+          message (-> {:payment (-> payment
+                                    (set-message-payment-info payload))}
+                      (cond->
+                       (has-invoice? payload)
+                        (assoc-in [:payment :invoice] (-> invoice
+                                                          (cond->
+                                                           (string? (:cycle invoice)) (update :cycle #(Integer/parseInt %)))))))]
+      (-> message
+          parse-payment-dates
+          parse-payment-currency)))
+
+  (subscription-payload->subscription [_ payload]
+    (-> {:subscription (payload->message payload subscription-payload->subscription)}
+        (assoc-in [:subscription :member] (payload->message payload subscription-payload->member))
+        (assoc-in [:subscription :plan] (payload->message  payload subscription-payload->plan))
+        (assoc-in [:subscription :member :address] (payload->message payload subscription-payload->member-address))
+        parse-subscription-dates))
+
+  (validate-transaction-payload [_ webhook-processing]
+    (let [payload (:webhook-payload webhook-processing)
+          payment-method (-> payload :payment :method (clojure.string/replace "_" "-") keyword)
+          status (-> payload :status (clojure.string/replace "_" "-") keyword)
+          schema (-> schemas/schemas payment-method status)]
+
+      {:valid?  (malli/validate schema payload)
+       :explain (malli/explain schema payload)
+       :schema  (str "guru-transaction-" (name payment-method) "-" (name status))}))
+
+  (validate-subscription-payload [_ webhook-processing]
+    (let [payload (:webhook-payload webhook-processing)
+          status (-> payload :last_status (clojure.string/replace "_" "-") keyword)
+          schema (-> schemas/schemas :subscription status)]
+
+      {:valid?  (malli/validate schema payload)
+       :explain (malli/explain schema payload)
+       :schema  (str "guru-subscription" "-" (name status))})))

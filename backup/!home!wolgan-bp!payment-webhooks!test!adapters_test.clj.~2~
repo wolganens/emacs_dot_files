@@ -1,0 +1,44 @@
+(ns adapter-tests
+  (:require [clojure.test :refer [deftest is testing]]
+            [payment-webhooks.adapters :as adapters]))
+
+(deftest map->sorted-map
+  (testing "the map gets sorted correctly"
+    (let [map {:id "id"
+               :payment {:total 200 :cycle 2 :billet {:line "12321312" :barcode "gggg"}}
+               :invoce {:start 1 :end 2}}
+          sorted-map (map->sorted-map map)]
+      (is (= sorted-map {:id "id",
+                         :invoce {:end 2, :start 1},
+                         :payment
+                         {:billet {:barcode "gggg", :line "12321312"}, :cycle 2, :total 200}}))))
+
+  (testing "natural-id should be the same for two equal messages with different orders"
+    (let [one-order {:id "id"
+                     :payment {:total 200 :cycle 2 :billet {:line "12321312" :barcode "gggg"}}
+                     :invoce {:start 1 :end 2}}
+          another-order {:id "id"
+                         :invoce {:end 2 :start 1}
+                         :payment {:total 200 :cycle 2 :billet {:line "12321312" :barcode "gggg"}}}]
+      (is (= (adapters/message->natural-id one-order)
+             (adapters/message->natural-id another-order)))))
+
+  (testing "natural-id should be different for two slightly different keys"
+    (let [one-order {:id "id"
+                     :paymen {:total 200 :cycle 2 :billet {:line "12321312" :barcode "gggg"}}
+                     :invoce {:start 1 :end 2}}
+          another-order {:id "id"
+                         :payment {:total 200 :cycle 2 :billet {:line "12321312" :barcode "gggg"}}
+                         :invoce {:start 1 :end 2}}]
+      (is (not (= (adapters/message->natural-id one-order)
+                  (adapters/message->natural-id another-order))))))
+
+  (testing "natural-id should be different for two slightly different values"
+    (let [one-order {:id "id"
+                     :payment {:total 200 :cycle "2" :billet {:line "12321312" :barcode "gggg"}}
+                     :invoce {:start 1 :end 2}}
+          another-order {:id "id"
+                         :payment {:total 200 :cycle 2 :billet {:line "12321312" :barcode "gggg"}}
+                         :invoce {:start 1 :end 2}}]
+      (is (not (= (adapters/message->natural-id one-order)
+                  (adapters/message->natural-id another-order)))))))

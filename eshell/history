@@ -1,36 +1,128 @@
-ls
 git status
-ls -lha
-git branch
-git branch
-tetris
-git branch
-ls
-ls
 git diff
+cd payment-webhooks/
+git add .
+git commit -m "assoc payment method info"
+git push
+git status
+clojure -A:test:kaocha
+clojure -A:testkaocha
+clojure -A:test:kaocha
+clojure -A:test:kaocha
+clojure -A:test:kaocha
+clojure -A:test:kaocha
+clojure -A:test:kaocha
+clojure -A:test:kaocha
+cd ..
+cd ..
+clojure -A:test:kaocha
+clojure -A:test:kaocha
+cd ..
+cd ..
+git checkout master
+git pull
+git checkout -b "guru_webhook_payload_generator"
+cd ..
+cd ..
+ls
+ls
+git add .
+git commit -m "talks notes and todos"
+git push
+psq.
+psql
+psql -h localhost -p 5432 -U aquisicao -W
+psql -h localhost -p 5432 -U aquisicao -W
+git add .
+git commit -m "add some general todos"
+cd ..
+cd payment-webhooks/
+ls
+git branch
+git checkout master
+git pull
+git branch
+\q
 exit
-locate
-locate init.el
+cd ..
+cd payment-webhooks/
+git checkout -b "message-schema"
+cd test/
 ls
+rm adapters.clj 
+rm #adapters.clj#
+rm #adapters.clj#
 ls
-git checkout -- core.clj 
-ls
+git branch
+git pull
+exit
+psql -h localhost -p 5432 -U aquisicao -W
+exit
+cd ..
+cd ..
 git status
-git clone --depth=1 -b master https://github.com/emacs-eaf/emacs-application-framework.git ~/.emacs.d/site-lisp/emacs-application-framework/
-cd emacs-application-framework
-cd ~
-cd emacs-application-framework
-cd payment-webhooks/src/payment_webhooks/
-cd ..
-cd ..
-cd ..
-cd .emacs.d/site-lisp/emacs-application-framework/
-chmod +x ./install-eaf.py
-./install-eaf.py
-sudo apt-get install pip
-./install-eaf.py
-./install-eaf.py
-cd .emacs.d/site-lisp/emacs-application-framework/
-chmod +x ./install-eaf.py
-./install-eaf.py
 git status
+git add .
+git commit -m "send_attempts table migration"
+git push]
+git push
+exit
+psql -h localhost -p 5432 -U aquisicao -W
+exit
+psql -h localhost -p 5432 -U aquisicao -W
+psql -h localhost -p 5432 -U aquisicao -W
+cd ..
+cd ..
+cd ..
+git status
+git branch
+psql -h localhost -p 5432 -U aquisicao -W
+psql -h localhost -p 5432 -U aquisicao -W
+psql -h localhost -p 5432 -U aquisicao -W
+exit
+rm -R organization/
+exit
+rm home.odt 
+exit
+psql -h localhost -p 5432 -U aquisicao -W
+eshel
+psql -h localhost -p 5432 -U aquisicao -W
+exit
+psql -h localhost -p 5432 -U aquisicao -W
+exit
+git branch
+git pull
+exit
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+clj-kondo --lint src $([ -d test ] && echo "test")
+psql -h localhost -p 5432 -U aquisicao -W
+psql -h localhost -p 5432 -U aquisicao -W
+psql -h localhost -p 5432 -U aquisicao -W
+exit
+psql -h localhost -p 5432 -U aquisicao -W
+cd ..
+cd ..
+git status
+git add .
+git commit -m "credit card and billet payment tests"
+git push
+git pull
+(+ 1 1)
+git add .
+git commit -m "fix conflicts"
+git push

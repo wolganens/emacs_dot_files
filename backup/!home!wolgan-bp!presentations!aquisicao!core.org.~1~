@@ -1,0 +1,138 @@
+#+title:     Alavancando@@latex:\\@@Estatística
+#+AUTHOR:    Eduardo Bellani
+#+EMAIL:     eduardo.bellani@brasilparalelo.com.br
+#+LANGUAGE: pt-br
+#+OPTIONS: H:1 toc:nil num:t author:nil date:nil
+#+LATEX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [presentation]
+#+latex_header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Tópicos}\tableofcontents[currentsection]\end{frame}}
+# get rid of small books on the references page.
+#+latex_header: \setbeamertemplate{bibliography item}{\insertbiblabel}
+#+latex_header: \beamertemplatenavigationsymbolsempty
+#+latex_header: \usepackage[backend=bibtex, style=authoryear]{biblatex}
+#+BEAMER_THEME: BP
+#+COLUMNS: %45ITEM %10BEAMER_ENV(Env) %10BEAMER_ACT(Act) %4BEAMER_COL(Col)
+#+STARTUP: fnadjust
+#+bibliography: ../refs.bib
+
+* Script                                                       :noexport:
+
+- Hero :: Executive
+- Problem
+  + External ::  Too many knobs to change
+  + Internal ::  Anxiety for failing and letting people down
+  + Philosophical :: A team this commited *should* be able to pull it off
+  + Villain :: Sleazy consultant
+- Mentor ::
+  - Sympathy :: The more you succeed, the more I succeed.
+  - Authority :: I have refs and experience
+- Process ::
+  1) Understand the Rocket model
+  2) Understand TAS
+  3) See what we did
+  4) Understand Hogan
+  5) See my profile, how I would coach myself
+  6) Understand mindsight
+  7) See what we can do with it
+  8) Understand how to provide safety to yourself and others
+- Promises ::
+  - We can get to high perfomance
+  - With almost no cost
+- Success :: Incredible team, able to focus
+- Failure :: Always running around quenshing fires
+
+* Por que estamos aqui?
+
+Para entender melhor como usar estatística para nos ajudar a gerenciar nossa
+performance.
+
+* Passo 1, Times
+
+Quase todo valor que entregamos é o resultado do trabalho de um time.
+
+Um erro comum das empresas é medir as pessoas e não seus times.
+
+* Mas faz diferença?
+
+Produtividade de times pode variar por uma *ordem de
+grandeza*. [cite:@wilson-making-soft]:
+
+   |                   | Lines of code | Effort (man-years) | Productivity |
+   |-------------------+---------------+--------------------+--------------|
+   | Microsoft excel 3 |        649000 |                 50 |        12980 |
+   | Lotus 123         |        400000 |                260 |         1538 |
+   |-------------------+---------------+--------------------+--------------|
+   | Factor            |               |                    |            8 |
+   #+TBLFM: @>$>=floor(@<</@<<<)::$>=floor($<</$<<<)
+
+* Rocket Model: Um modelo de time
+
+- Modelo descritivo, prescritivo e validado do que e quando fazer para criar um
+  time de alta performance. [cite:@hughes2018leadership]
+- Consiste em oito componentes que precisam estar em bom funcionamento para que
+  times atinjam alta performance.
+
+* Visual
+
+#+ATTR_LaTeX: :scale 1 :float t :placement [H]
+[[./rocket.png]]
+
+* TAS (Team assessment survey)
+
+Exemplos.
+
+* Passo 2, Indivíduos
+
+Alguns problemas:
+
+- Escolher os indivíduos capazes de demonstrar alta performance *dentro de um
+  time*;
+- Desenvolver tais indivíduos para que a performance seja atingida;
+- Remover os indivíduos que não consigam.
+
+* 360: Um modelo de feedback
+
+Avaliação por todos a sua volta, como superiores, subordinados, prestadores de
+serviços, clientes, e pelo próprio avaliado.
+
+* Exemplo
+
+...
+
+* Hogan: Um modelo de desenvolvimento
+
+- HDS (Dark Side Of Personality) :: Abordagems sob stress.
+- HPI (The Bright Side Of Personality) :: Abordagems típica.
+- MVPI (The Inside Of Personality) :: Valores mais motivadores.
+
+* Exemplo
+...
+
+* Mindsight: Um modelo de recrutamento
+
+- Mental :: Teste de raciocínio fluido Baseado na estrutura C-H-C (Cattel-Horn-Carrol)[fn:1]
+- Social :: Testes de habilidades interpessoais usando ~Situational Judgement
+  Test~. Explicam variância na performance diferente da habilidade cognitiva.
+- Motivacional ::  Mede mecanismos de justificativa usando um ~Conditional
+  Reasoning Test~.
+
+* Exemplo
+
+...
+
+* Referências
+:PROPERTIES:
+:BEAMER_opt: allowframebreaks
+:END:
+
+#+LATEX: \tiny
+#+print_bibliography:
+
+* COMMENT Customization
+Local Variables:
+org-latex-pdf-process: ("export TEXINPUTS=:../document-style/beamer-style: && latexmk %f -bibtex -f -pdf -interaction=nonstopmode -output-directory=%o")
+End:
+
+* Footnotes
+
+[fn:1] (O grau de adaptabilidade é de cima para baixo)

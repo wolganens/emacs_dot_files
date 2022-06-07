@@ -1,0 +1,131 @@
+% Created 2022-05-31 ter 20:55
+% Intended LaTeX compiler: pdflatex
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\AtBeginSection[]{\begin{frame}<beamer>\frametitle{Tópicos}\tableofcontents[currentsection]\end{frame}}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\beamertemplatenavigationsymbolsempty
+\usepackage[backend=bibtex, style=authoryear]{biblatex}
+\usetheme{BP}
+\date{}
+\title{Alavancando\\Estatística}
+\hypersetup{
+ pdfauthor={Eduardo Bellani},
+ pdftitle={Alavancando\\Estatística},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.3)}, 
+ pdflang={Brazilian}}
+\begin{document}
+
+\maketitle
+
+\begin{frame}[label={sec:org566b54d}]{Por que estamos aqui?}
+Para entender melhor como usar estatística para nos ajudar a gerenciar nossa
+performance.
+\end{frame}
+
+\begin{frame}[label={sec:org6670589}]{Passo 1, Times}
+Quase todo valor que entregamos é o resultado do trabalho de um time.
+
+Um erro comum das empresas é medir as pessoas e não seus times.
+\end{frame}
+
+\begin{frame}[label={sec:org29b67bc}]{Mas faz diferença?}
+Produtividade de times pode variar por uma \alert{ordem de
+grandeza}. [cite:@wilson-making-soft]:
+
+\begin{center}
+\begin{tabular}{lrrr}
+ & Lines of code & Effort (man-years) & Productivity\\
+\hline
+Microsoft excel 3 & 649000 & 50 & 12980\\
+Lotus 123 & 400000 & 260 & 1538\\
+\hline
+Factor &  &  & 8\\
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}[label={sec:org97b1046}]{Rocket Model: Um modelo de time}
+\begin{itemize}
+\item Modelo descritivo, prescritivo e validado do que e quando fazer para criar um
+time de alta performance. [cite:@hughes2018leadership]
+\item Consiste em oito componentes que precisam estar em bom funcionamento para que
+times atinjam alta performance.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label={sec:org3e3c798}]{Visual}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{./rocket.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}[label={sec:orgb4f210e}]{TAS (Team assessment survey)}
+Exemplos.
+\end{frame}
+
+\begin{frame}[label={sec:org8bbc7aa}]{Passo 2, Indivíduos}
+Alguns problemas:
+
+\begin{itemize}
+\item Escolher os indivíduos capazes de demonstrar alta performance \alert{dentro de um
+time};
+\item Desenvolver tais indivíduos para que a performance seja atingida;
+\item Remover os indivíduos que não consigam.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label={sec:org9605eb5}]{360: Um modelo de feedback}
+Avaliação por todos a sua volta, como superiores, subordinados, prestadores de
+serviços, clientes, e pelo próprio avaliado.
+\end{frame}
+
+\begin{frame}[label={sec:org40f0a1a}]{Exemplo}
+\ldots{}
+\end{frame}
+
+\begin{frame}[label={sec:orgf72ce90}]{Hogan: Um modelo de desenvolvimento}
+\begin{description}
+\item[{HDS (Dark Side Of Personality)}] Abordagems sob stress.
+\item[{HPI (The Bright Side Of Personality)}] Abordagems típica.
+\item[{MVPI (The Inside Of Personality)}] Valores mais motivadores.
+\end{description}
+\end{frame}
+
+\begin{frame}[label={sec:orgfd95468}]{Exemplo}
+\ldots{}
+\end{frame}
+
+\begin{frame}[label={sec:orgc9ab352},fragile]{Mindsight: Um modelo de recrutamento}
+ \begin{description}
+\item[{Mental}] Teste de raciocínio fluido Baseado na estrutura C-H-C (Cattel-Horn-Carrol)\footnote{(O grau de adaptabilidade é de cima para baixo)}
+\item[{Social}] Testes de habilidades interpessoais usando \texttt{Situational Judgement
+  Test}. Explicam variância na performance diferente da habilidade cognitiva.
+\item[{Motivacional}] Mede mecanismos de justificativa usando um \texttt{Conditional
+  Reasoning Test}.
+\end{description}
+\end{frame}
+
+\begin{frame}[label={sec:org44072d4}]{Exemplo}
+\ldots{}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Referências}
+\tiny
+\end{frame}
+\end{document}

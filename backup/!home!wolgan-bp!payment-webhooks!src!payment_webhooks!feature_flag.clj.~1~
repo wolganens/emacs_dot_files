@@ -1,0 +1,48 @@
+(ns payment-webhooks.feature-flag
+  "Feature flags are set in
+  https://gitlab.com/brasil-paralelo-2019/bp-hermes/-/feature_flags"
+  (:require [clojure.string :as str]
+            [unleash-client-clojure.builder :as b]
+            [unleash-client-clojure.context :as c]
+            [unleash-client-clojure.unleash :as u]))
+
+(def ^:private unleash
+  (u/build (b/app-name "bp-hermes")
+           (b/instance-id "C-rx9YPzgpzUcfpPXj9s")
+           (b/unleash-api "https://gitlab.com/api/v4/feature_flags/unleash/20901664")))
+
+(defn- nova-bp-ff?
+  "Both LG and Samsung use @brasilparalelo.com.br emails, so they're
+  covered by `novabp-allowed?` below"
+  [email]
+  (u/enabled? unleash
+              "novabp-allowed-emails"
+              (c/build (c/user-id email)) false))
+
+(defn bpeiro? [{:keys [email]}]
+  (and email (str/ends-with? email "@brasilparalelo.com.br")))
+
+(defn novabp-allowed? [{:keys [email] :as user}]
+  (and email
+       (or (bpeiro? user)
+           (nova-bp-ff? email))))
+
+(defn enabled? [feature-flag]
+  (u/enabled? unleash feature-flag))
+
+(defn using-comments-api? [{:keys [email]}]
+  (u/enabled? unleash
+              "comments-api"
+              (c/build (c/user-id email)) false))
+
+(defn dubbing-active? [user]
+  (or (bpeiro? user)
+      (enabled? "dubbed-tracks")))
+
+(defn unleash-percentage [feature-key]
+  (-> (u/get-toggle-definition unleash feature-key)
+      .getStrategies
+      first
+      .getParameters
+      (get "percentage")
+      (Float/parseFloat)))

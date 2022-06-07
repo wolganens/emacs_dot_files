@@ -1,0 +1,4 @@
+(ns payment-webhooks.protocols.message-sender)
+
+(defprotocol MessageSender
+  (send! [this message payload]))

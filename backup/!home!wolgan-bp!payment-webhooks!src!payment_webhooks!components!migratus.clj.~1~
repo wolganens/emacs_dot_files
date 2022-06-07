@@ -1,0 +1,20 @@
+(ns payment-webhooks.components.ragtime-component
+  (:require [com.stuartsierra.component :as component]
+            [ragtime.jdbc]
+            [ragtime.core]
+            [clojure.pprint]))
+
+(defrecord Ragtime-component [database]
+  component/Lifecycle
+  (start [this]
+         (let [migrations-collection (ragtime.jdbc/load-directory "resources/migrations")
+               migrations-idx (ragtime.core/into-index migrations-collection)]
+           (clojure.pprint/pprint "before migrate-all")
+           (ragtime.core/migrate-all database migrations-idx migrations-collection)
+           (clojure.pprint/pprint "after migrate-all"))
+           this)
+  (stop [this]
+    this))
+
+(defn new-ragtime-component []
+  (map->Ragtime-component {}))

@@ -1,0 +1,6 @@
+(ns payment-webhook.components.message-sender
+  (:require [payment-webhooks.protocols.message-sender :as message-protocol]))
+
+
+(defrecord MessageSender
+    ())

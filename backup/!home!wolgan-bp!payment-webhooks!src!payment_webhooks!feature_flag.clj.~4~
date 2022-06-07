@@ -1,0 +1,33 @@
+(ns payment-webhooks.feature-flag
+  "Feature flags are set in
+  https://gitlab.com/brasil-paralelo-2019/payment-webhooks/-/feature_flags"
+  (:require [unleash-client-clojure.builder :as b]
+            [unleash-client-clojure.unleash :as u]))
+
+(def ^:private unleash
+  (u/build (b/app-name "payment-webhooks")
+           (b/instance-id "q7pQk4gwdb_CMjeBxpEn")
+           (b/unleash-api "https://gitlab.com/api/v4/feature_flags/unleash/33661570")))
+
+(defn- enabled? [feature-flag]
+  (u/enabled? unleash feature-flag))
+
+(defn- unleash-percentage [feature-key]
+  (-> (u/get-toggle-definition unleash feature-key)
+      .getStrategies
+      first
+      .getParameters
+      (get "rollout")
+      (Integer/parseInt)))
+
+(defn- new-messaging-service-enabled? []
+  (enabled? "new-messaging-service-weight"))
+
+(defn- new-messaging-service-weight []
+  (unleash-percentage "new-messaging-service-weight"))
+
+(defn use-new-messaging-service? []
+  (let [ff-enabled? (new-messaging-service-enabled?)
+        random-percentage (rand-int 100)
+        ff-weight (new-messaging-service-weight)]
+    (or (not ff-enabled?) (< random-percentage ff-weight))))

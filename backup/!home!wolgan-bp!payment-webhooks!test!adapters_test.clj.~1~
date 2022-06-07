@@ -1,0 +1,11 @@
+(ns )
+(deftest map->sorted-map
+  (testing "the map gets sorted correctly"
+    (let [map {:id "id"
+               :payment {:total 200 :cycle 2 :billet {:line "12321312" :barcode "gggg"}}
+               :invoce {:start 1 :end 2}}
+          sorted-map (map->sorted-map map)]
+      (is (= sorted-map {:id "id",
+                         :invoce {:end 2, :start 1},
+                         :payment
+                         {:billet {:barcode "gggg", :line "12321312"}, :cycle 2, :total 200}})))))

@@ -1,0 +1,142 @@
+% Created 2022-05-31 ter 20:39
+% Intended LaTeX compiler: pdflatex
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\AtBeginSection[]{\begin{frame}<beamer>\frametitle{Tópicos}\tableofcontents[currentsection]\end{frame}}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\beamertemplatenavigationsymbolsempty
+\usepackage[backend=bibtex, style=authoryear]{biblatex}
+\date{}
+\title{Alavancando\\Estatística}
+\hypersetup{
+ pdfauthor={Eduardo Bellani},
+ pdftitle={Alavancando\\Estatística},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.3)}, 
+ pdflang={Brazilian}}
+\begin{document}
+
+\maketitle
+
+\section{Por que estamos aqui?}
+\label{sec:orgc73d8c4}
+
+Para entender melhor como usar estatística para nos ajudar a gerenciar nossa
+performance.
+
+\section{Passo 1, Times}
+\label{sec:org775fd4b}
+
+Quase todo valor que entregamos é o resultado do trabalho de um time.
+
+Um erro comum das empresas é medir as pessoas e não seus times.
+
+\section{Mas faz diferença?}
+\label{sec:org4bad9c1}
+
+Produtividade de times pode variar por uma \textbf{ordem de
+grandeza}. [cite:@wilson-making-soft]:
+
+\begin{center}
+\begin{tabular}{lrrr}
+ & Lines of code & Effort (man-years) & Productivity\\
+\hline
+Microsoft excel 3 & 649000 & 50 & 12980\\
+Lotus 123 & 400000 & 260 & 1538\\
+\hline
+Factor &  &  & 8\\
+\end{tabular}
+\end{center}
+
+\section{Rocket Model: Um modelo de time}
+\label{sec:org26e556e}
+
+\begin{itemize}
+\item Modelo descritivo, prescritivo e validado do que e quando fazer para criar um
+time de alta performance. [cite:@hughes2018leadership]
+\item Consiste em oito componentes que precisam estar em bom funcionamento para que
+times atinjam alta performance.
+\end{itemize}
+
+\section{Visual}
+\label{sec:org7e0f995}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{./rocket.png}
+\end{figure}
+
+\section{TAS (Team assessment survey)}
+\label{sec:org9d3effa}
+
+Exemplos.
+
+\section{Passo 2, Indivíduos}
+\label{sec:orgd1dc4f6}
+
+Alguns problemas:
+
+\begin{itemize}
+\item Escolher os indivíduos capazes de demonstrar alta performance \textbf{dentro de um
+time};
+\item Desenvolver tais indivíduos para que a performance seja atingida;
+\item Remover os indivíduos que não consigam.
+\end{itemize}
+
+\section{360: Um modelo de feedback}
+\label{sec:org4c3d246}
+
+Avaliação por todos a sua volta, como superiores, subordinados, prestadores de
+serviços, clientes, e pelo próprio avaliado.
+
+\section{Exemplo}
+\label{sec:orged40043}
+
+\ldots{}
+
+\section{Hogan: Um modelo de desenvolvimento}
+\label{sec:orga17e64d}
+
+\begin{description}
+\item[{HDS (Dark Side Of Personality)}] Abordagems sob stress.
+\item[{HPI (The Bright Side Of Personality)}] Abordagems típica.
+\item[{MVPI (The Inside Of Personality)}] Valores mais motivadores.
+\end{description}
+
+\section{Exemplo}
+\label{sec:orge93d7ae}
+\ldots{}
+
+\section{Mindsight: Um modelo de recrutamento}
+\label{sec:org6f214d4}
+
+\begin{description}
+\item[{Mental}] Teste de raciocínio fluido Baseado na estrutura C-H-C (Cattel-Horn-Carrol)\footnote{(O grau de adaptabilidade é de cima para baixo)}
+\item[{Social}] Testes de habilidades interpessoais usando \texttt{Situational Judgement
+  Test}. Explicam variância na performance diferente da habilidade cognitiva.
+\item[{Motivacional}] Mede mecanismos de justificativa usando um \texttt{Conditional
+  Reasoning Test}.
+\end{description}
+
+\section{Exemplo}
+\label{sec:org0cec198}
+
+\ldots{}
+
+\section{Referências}
+\label{sec:org8e503df}
+\tiny
+\end{document}

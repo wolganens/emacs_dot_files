@@ -1,0 +1,37 @@
+(ns payment-webhooks.queries
+  (:require [honey.sql :as sql]
+            [cheshire.core :refer [generate-string]]
+            [honey.sql.helpers :refer [select select-distinct from
+                                     join left-join right-join
+                                     where for group-by having union
+                                     order-by limit offset values columns
+                                     update insert-into set composite
+                                     delete delete-from truncate] :as h]))
+
+(defn save-issued-message [{:keys [send-attempt-id
+                                   message-id
+                                   webhook-id
+                                   send-attempt-at                                   
+                                   send-attempt-errors]}]
+    
+  (-> (insert-into :send-attempts)
+      (columns :send-attempt-id
+               :message-id
+               :webhook-id
+               :send-attempt-at
+               :send-attempt-status
+               :send-attempt-errors)
+      (values
+       [[send-attempt-id
+         message-id
+         webhook-id
+         send-attempt-at
+         "issued"
+         send-attempt-errors]])))
+
+(clojure.pprint/pprint (save-issued-message "send-id-test"
+                                           "message-id-test"
+                                           "webhook-id-test"
+                                           "send-attempt-at-test"
+                                           "published"
+                                           (generate-string {:message ""})))
